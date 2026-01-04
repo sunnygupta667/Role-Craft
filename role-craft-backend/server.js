@@ -20,7 +20,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "https://role-craft-backend.onrender.com",
+    origin: process.env.FRONTEND_URL || "https://role-craft-frontend.vercel.app/",
     credentials: true,
   })
 );
