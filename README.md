@@ -224,7 +224,7 @@ http://localhost:5173/portfolio/backend-developer
 
 1. **Push your code to GitHub**
 
-2. **Create a new Web Service on Render/Railway**
+2. **Create a new Web Service on Railway**
 
 3. **Set environment variables**:
 
