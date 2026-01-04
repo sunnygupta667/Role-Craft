@@ -13,7 +13,6 @@ A complete full-stack multi-portfolio platform with admin dashboard, built with 
 - ✅ **JWT Authentication** - Secure admin authentication
 - ✅ **MongoDB Database** - Scalable data storage
 - ✅ **Modern Stack** - React + Vite + Express + MongoDB
-- ✅ **Secure Change Password** - Provide a OTP bases Two-factor authentication password change feature
 
 ## 🛠️ Tech Stack
 
@@ -75,8 +74,6 @@ CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 FRONTEND_URL=http://localhost:5173
-EMAIL_USERNAME= your_email_address
-EMAIL_PASSWORD= your_email_app_passwords
 
 ```
 
@@ -291,8 +288,6 @@ multi-portfolio-platform/
 │   ├── models/
 │   │   ├── Admin.js
 │   │   └── Portfolio.js
-│   ├── utils/
-│   │   └── sendEmail.js
 │   ├── routes/
 │   │   ├── authRoutes.js
 │   │   ├── portfolioRoutes.js
@@ -315,8 +310,7 @@ multi-portfolio-platform/
     │   │   ├── LoginPage.jsx
     │   │   ├── PortfolioFormPage.jsx
     │   │   └── PortfolioPage.jsx
-    │   │   ├── ChangePasswordPage.jsx
-    │   │   └── ForgotPasswordPage.jsx
+    │   │   └── ChangePasswordPage.jsx
     │   ├── sections/
     │   │   ├── HeroSection.jsx
     │   │   ├── SkillsSection.jsx
