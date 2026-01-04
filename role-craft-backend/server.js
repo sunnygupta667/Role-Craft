@@ -77,18 +77,32 @@ connectDB();
 const app = express();
 
 // --- FIXED CORS SETUP ---
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://role-craft.vercel.app", // Your specific frontend URL
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://role-craft.vercel.app",
-      process.env.FRONTEND_URL, // Fallback
-    ].filter(Boolean), // Removes undefined values
-    credentials: true, // Important for cookies/sessions
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          "The CORS policy for this site does not allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true, // Required for sessions/cookies (if used)
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"], // ✅ CRITICAL: Allow Authorization header
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   })
 );
+
+// Handle Preflight Requests specifically
+app.options("*", cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
