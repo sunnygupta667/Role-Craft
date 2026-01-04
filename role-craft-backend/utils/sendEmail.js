@@ -24,11 +24,18 @@
 // export default sendEmail;
 
 
-
 import nodemailer from "nodemailer";
 
 const sendEmail = async (options) => {
-  // Defensive coding: Ensure no extra spaces from .env files
+  // 1. Log (hidden password) to verify variables are loaded
+  console.log("Attempting to send email...");
+  console.log("User:", process.env.EMAIL_USERNAME);
+  console.log(
+    "Password Length:",
+    process.env.EMAIL_PASSWORD ? process.env.EMAIL_PASSWORD.length : "MISSING"
+  );
+
+  // 2. Force Trim (Removes accidental spaces)
   const user = process.env.EMAIL_USERNAME
     ? process.env.EMAIL_USERNAME.trim()
     : "";
@@ -44,14 +51,20 @@ const sendEmail = async (options) => {
     },
   });
 
-  const message = {
-    from: `RoleCraft Security <${user}>`,
-    to: options.email,
-    subject: options.subject,
-    html: options.message,
-  };
-
-  await transporter.sendMail(message);
+  // 3. Send and Catch specific error
+  try {
+    const info = await transporter.sendMail({
+      from: `RoleCraft Security <${user}>`,
+      to: options.email,
+      subject: options.subject,
+      html: options.message,
+    });
+    console.log("Email sent successfully:", info.messageId);
+  } catch (error) {
+    console.error("CRITICAL EMAIL ERROR:", error);
+    // This will show the REAL reason in Render Logs
+    throw error;
+  }
 };
 
 export default sendEmail;
