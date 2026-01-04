@@ -75,36 +75,30 @@ connectDB();
 // Initialize express app
 const app = express();
 
-// --- FIXED CORS SETUP ---
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://role-craft.vercel.app", // Your actual Vercel URL
-  process.env.FRONTEND_URL, // Fallback from .env
-].filter(Boolean);
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) return callback(null, true);
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        "http://localhost:5173",
+        "https://role-craft.vercel.app",
+        process.env.FRONTEND_URL,
+      ];
 
-      if (allowedOrigins.indexOf(origin) === -1) {
-        // Optional: for debugging, you can log the blocked origin
-        // console.log("Blocked Origin:", origin);
-        const msg =
-          "The CORS policy for this site does not allow access from the specified Origin.";
-        return callback(new Error(msg), false);
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
       }
-      return callback(null, true);
     },
-    credentials: true,
+    credentials: false, // YOU ARE USING JWT HEADER, NOT COOKIES
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// ❌ REMOVED CRASHING LINE: app.options('*', cors());
-// The app.use(cors(...)) above automatically handles OPTIONS requests.
+// ✅ REQUIRED
+app.options("*", cors());
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
