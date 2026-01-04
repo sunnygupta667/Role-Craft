@@ -8,7 +8,7 @@ import LoginPage from './pages/LoginPage';
 import AdminDashboard from './pages/AdminDashboard';
 import PortfolioFormPage from './pages/PortfolioFormPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
-import ForgotPasswordPage from './pages/ForgotPasswordPage'; 
+// ❌ REMOVED: ForgotPasswordPage import
 
 function App() {
   return (
@@ -18,7 +18,10 @@ function App() {
           {/* --- Public Routes --- */}
           <Route path="/portfolio/:slug" element={<PortfolioPage />} />
           <Route path="/admin/login" element={<LoginPage />} />
-          <Route path="/admin/forgot-password" element={<ForgotPasswordPage />} />        
+          
+          {/* ❌ REMOVED: Forgot Password Route */}
+          {/* <Route path="/admin/forgot-password" element={<ForgotPasswordPage />} /> */}
+          
           {/* --- Protected Admin Routes --- */}
           <Route
             path="/admin/dashboard"
@@ -45,8 +48,7 @@ function App() {
             }
           />
 
-          {/* ✅ ADD THIS ROUTE */}
-          {/* It must be protected because the backend requires a token to identify the admin */}
+          {/* Change Password (Protected) */}
           <Route
             path="/admin/change-password"
             element={

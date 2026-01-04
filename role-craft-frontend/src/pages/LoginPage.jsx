@@ -222,18 +222,6 @@ const LoginPage = () => {
               )}
             </motion.button>
 
-          {/* Inside the form, below the password field or button */}
-<div className="flex justify-between items-center text-xs mt-2 mb-6">
-  <span className="text-gray-400">Use authorized email</span>
-  <button 
-    type="button"
-    onClick={() => navigate('/admin/forgot-password')}
-    className="text-primary-600 hover:text-primary-500 font-medium transition-colors"
-  >
-    Forgot Password?
-  </button>
-</div>
-
           </form>
         </motion.div>
         
