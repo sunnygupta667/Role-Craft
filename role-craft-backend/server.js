@@ -57,8 +57,6 @@
 // });
 
 
-
-
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -80,8 +78,8 @@ const app = express();
 // --- FIXED CORS SETUP ---
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://role-craft.vercel.app", // Your specific frontend URL
-  process.env.FRONTEND_URL,
+  "https://role-craft.vercel.app", // Your actual Vercel URL
+  process.env.FRONTEND_URL, // Fallback from .env
 ].filter(Boolean);
 
 app.use(
@@ -89,21 +87,24 @@ app.use(
     origin: function (origin, callback) {
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
+
       if (allowedOrigins.indexOf(origin) === -1) {
+        // Optional: for debugging, you can log the blocked origin
+        // console.log("Blocked Origin:", origin);
         const msg =
           "The CORS policy for this site does not allow access from the specified Origin.";
         return callback(new Error(msg), false);
       }
       return callback(null, true);
     },
-    credentials: true, // Required for sessions/cookies (if used)
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   })
 );
 
-// Handle Preflight Requests specifically
-app.options("*", cors());
+// ❌ REMOVED CRASHING LINE: app.options('*', cors());
+// The app.use(cors(...)) above automatically handles OPTIONS requests.
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
