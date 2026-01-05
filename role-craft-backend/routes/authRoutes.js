@@ -1,6 +1,5 @@
 // backend/routes/authRoutes.js
 import express from "express";
-import rateLimit from "express-rate-limit";
 
 // Add changePassword to the import list
 import {
@@ -14,13 +13,7 @@ import { protect } from "../middleware/auth.js";
 
 const router = express.Router();
 
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Limit each IP to 5 requests
-  message: "Too many login attempts, please try again after 15 minutes",
-});
-
-router.post("/login", loginLimiter, login);
+router.post("/login", login);
 
 router.get("/me", protect, getMe);
 
